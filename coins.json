@@ -1,0 +1,35 @@
+{
+  "note": "Editable coin list. status: working | coming-soon. TEST NETWORK mints only. The page refuses the real $DKORN / $UFD mints.",
+  "coins": [
+    {
+      "id": "dkorn",
+      "name": "TEST-DKORN",
+      "symbol": "TDKORN",
+      "mint": "Bjuvft2iBsRzdGGva98bKJzMxkjfbKHiF7dkRkeeR781",
+      "decimals": 6,
+      "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "status": "working",
+      "blurb": "Circuit 13 arcade test coin"
+    },
+    {
+      "id": "ufd",
+      "name": "TEST-UFD",
+      "symbol": "TUFD",
+      "mint": "EBkcnN5qoFee7isY1FedYBdmxfubZFbU5CiWFHCTpYfy",
+      "decimals": 6,
+      "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "status": "working",
+      "blurb": "Duster Herd guest test coin · jar idea originally by Pete for UFD"
+    },
+    {
+      "id": "doge",
+      "name": "DOGE",
+      "symbol": "DOGE",
+      "mint": "",
+      "decimals": 6,
+      "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "status": "coming-soon",
+      "blurb": "Coming-soon text label only"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "note": "Feature switches for the legal review. Set any to false and reload: that part of the page disappears. walletActions=false turns the page back into a read-only board.",
+  "walletActions": true,
+  "closeJar": true,
+  "leaderboard": true,
+  "coinToggle": true,
+  "top3Board": true,
+  "streakBadges": true,
+  "bestStreakBadges": true,
+  "streakTiers": true,
+  "countdown": true,
+  "peek": true,
+  "blockListedRealWallets": true,
+  "jarStage": true
+}

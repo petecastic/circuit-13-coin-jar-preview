@@ -1,0 +1,6 @@
+{
+  "note": "Display copy of the on-chain rules in programs/piggy-jar/src/lib.rs. If lib.rs DAILY_DEPOSIT_CAP_TOKENS changes (e.g. to 5), rebuild the program AND change dailyDepositCapTokens here. The chain is always the final word.",
+  "dailyDepositCapTokens": 10,
+  "jarCapTokens": 100,
+  "withdrawTokens": 1
+}

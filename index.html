@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0a2a6b">
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  if (q.get("preview") === "1" || q.get("demo") === "1" || q.get("net")) return;
+  location.replace(location.pathname + "?preview=1" + location.hash);
+})();
+</script>
+<title>Circuit 13 Coin Jar v2 · TEST NETWORK PROTOTYPE</title>
+<link rel="icon" href="assets/dkorn-coin-96.webp" type="image/webp">
+<link rel="preload" as="image" href="assets/dkorn-coin-256.webp" type="image/webp">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="arcade.css">
+<script type="module" src="dist/app.js"></script>
+</head>
+<body class="arcade">
+<a class="skip" href="#main">Skip to the jar</a>
+<div class="testbar" role="note"><span>⚠ TEST NETWORK PROTOTYPE · <span class="cluster-name">TEST</span> · Test network, no real coins ⚠</span></div>
+<div id="previewBar" class="previewbar" role="note" hidden>
+  <span class="pv-tag">PREVIEW MODE</span>
+  <span class="pv-text">Click-through only. Jars live in this page, not on the test network yet. Preview wallet is fake: no Phantom, no keys.</span>
+  <span class="pv-btns"><button id="pvNextDay" class="btn ghost small-btn" type="button">Skip to next UTC day</button><button id="pvReset" class="btn ghost small-btn" type="button">Reset preview</button></span>
+</div>
+<header class="masthead">
+  <div class="chrome-title">
+    <img class="title-coin" src="assets/dkorn-coin-96.webp" width="96" height="96" alt="" decoding="async">
+    <div class="kicker">X-COMIX ARCADE · 3 AM VALLEY · CIRCUIT 13</div>
+    <h1>Circuit 13 <em>Coin Jar</em></h1>
+    <div class="ver">v2 · tester build · <span id="clusterTag">TEST NETWORK PROTOTYPE</span></div>
+  </div>
+  <div class="ticker" aria-hidden="true"><span>★ Drop a coin ★ Watch the jar ★ 1 drop a day ★ 1 take-out a day ★ Your coins, your jar ★ Test network, no real coins ★</span></div>
+  <div class="hitbar">
+    <div class="hitcounter" id="hitCounter" title="Arcade visits counted in this browser only. Just for fun.">
+      <span class="hc-label">ARCADE VISITS</span>
+      <span class="hc-digits" id="hitDigits" aria-label="arcade visits">000000</span>
+    </div>
+    <span class="y2k-chip">★ Best viewed at 800×600 or bigger ★</span>
+  </div>
+</header>
+<div id="fatal" class="fatal" role="alert" hidden></div>
+<main id="main">
+  <section class="panel full stage" id="stage" aria-labelledby="sth">
+    <h2 id="sth" class="sr">The jar</h2>
+    <div class="stage-inner">
+      <figure class="mascot-wrap">
+        <img id="mascot" src="assets/dkorn-coin-512.webp" srcset="assets/dkorn-coin-256.webp 256w, assets/dkorn-coin-512.webp 512w" sizes="(max-width:600px) 40vw, 240px" width="512" height="512" alt="Dkorn coin art: an antlered ape-moose hybrid with palmate antlers through a yellow hard hat" decoding="async">
+        <div id="mascotAlt" class="mascot-alt" hidden aria-hidden="true"></div>
+        <figcaption id="mascotCap">Dkorn · Circuit 13 night crew</figcaption>
+      </figure>
+      <div class="jar-wrap" id="jarWrap">
+        <svg viewBox="0 0 300 320" class="bigjar" role="img" aria-labelledby="stageCount stageLabel">
+          <defs>
+            <linearGradient id="coinG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff38a"/><stop offset=".5" stop-color="#ffcc00"/><stop offset="1" stop-color="#e08a00"/></linearGradient>
+            <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#bfe9ff" stop-opacity=".6"/><stop offset=".22" stop-color="#ffffff" stop-opacity=".14"/><stop offset=".78" stop-color="#bfe9ff" stop-opacity=".08"/><stop offset="1" stop-color="#7fd8ff" stop-opacity=".55"/></linearGradient>
+            <linearGradient id="lidG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#d7e2f0"/><stop offset=".5" stop-color="#9fb3cf"/><stop offset="1" stop-color="#e9f0f9"/></linearGradient>
+            <clipPath id="glassClip"><path d="M70 76 H230 Q246 76 246 96 V266 Q246 290 222 290 H78 Q54 290 54 266 V96 Q54 76 70 76 Z"/></clipPath>
+          </defs>
+          <ellipse cx="150" cy="298" rx="110" ry="10" fill="#000" opacity=".25"/>
+          <g clip-path="url(#glassClip)">
+            <rect x="40" y="70" width="220" height="230" fill="#0b2a5c" opacity=".35"/>
+            <g id="jarLevel" class="jar-level" style="transform:translateY(286px)">
+              <rect x="40" y="0" width="220" height="300" fill="url(#coinG)"/>
+              <path class="wave" d="M40 2 Q75 -6 110 2 T180 2 T250 2 T320 2 V12 H40 Z" fill="#fff6a8"/>
+              <g class="sparkles" fill="#fff"><circle cx="90" cy="30" r="2"/><circle cx="170" cy="60" r="1.6"/><circle cx="210" cy="24" r="2.2"/><circle cx="120" cy="90" r="1.4"/></g>
+            </g>
+            <g id="jarCoins"></g>
+          </g>
+          <path d="M70 76 H230 Q246 76 246 96 V266 Q246 290 222 290 H78 Q54 290 54 266 V96 Q54 76 70 76 Z" fill="url(#glassG)" stroke="#9fe3ff" stroke-width="4"/>
+          <path d="M76 100 Q71 180 80 262" stroke="#fff" stroke-opacity=".75" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <path d="M226 110 Q230 150 228 200" stroke="#fff" stroke-opacity=".35" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <g id="jarTicks" stroke="#ffffff" stroke-opacity=".55" stroke-width="2"><path d="M232 128 h10"/><path d="M232 181 h10"/><path d="M232 233 h10"/></g>
+          <rect x="62" y="46" width="176" height="34" rx="12" fill="url(#lidG)" stroke="#6f86a8" stroke-width="2.5"/>
+          <rect x="66" y="49" width="168" height="10" rx="5" fill="#fff" opacity=".55"/>
+          <rect x="124" y="56" width="52" height="8" rx="4" fill="#1b1b1b"/>
+          <text x="150" y="76" text-anchor="middle" font-size="11" font-weight="800" fill="#25406b" font-family="Trebuchet MS,Verdana,sans-serif" letter-spacing="2">CIRCUIT 13</text>
+        </svg>
+        <div id="dropCoin" class="dropcoin" aria-hidden="true"></div>
+        <div id="dropPlus" class="dropplus" aria-hidden="true"></div>
+        <div class="stage-read">
+          <div id="stageCount" class="stage-count">0 / 100</div>
+          <div id="stageLabel" class="stage-label">…</div>
+          <div id="stageTier" class="stage-tier"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel full" id="top3" aria-labelledby="t3h">
+    <h2 id="t3h">Top 3 coins in the jar</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Coin</th><th class="num">Jars</th><th class="num">Coins in jars</th><th class="num">Best live streak</th><th>Status</th></tr></thead>
+      <tbody id="top3rows"><tr><td colspan="6">Loading…</td></tr></tbody>
+    </table></div>
+    <p class="meta">Ranked by jar count, then coins held. Counts only. Coin list lives in coins.json.</p>
+  </section>
+
+  <section class="panel" id="walletPanel" aria-labelledby="wh">
+    <h2 id="wh">Your jar</h2>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Test coin"></div>
+    <div class="walletbar">
+      <span class="dim">Wallet:</span> <code id="walletAddr">Not connected</code>
+      <button id="connectBtn" class="btn primary">Connect Phantom</button>
+      <button id="disconnectBtn" class="btn ghost" hidden>Disconnect</button>
+    </div>
+    <div id="countdown" class="countdown" aria-live="off">
+      <div class="cd-label">Next UTC reset in</div>
+      <div class="cd-clock" id="cdClock">--:--:--</div>
+      <div class="cd-local dim" id="cdLocal"></div>
+    </div>
+    <div id="myJar" class="myjar"></div>
+    <div id="dropMeter" class="meterbox"></div>
+    <div id="jarMeter" class="meterbox"></div>
+    <div id="actions" hidden>
+      <div class="actrow">
+        <button id="openBtn" class="btn primary">Open my jar</button>
+      </div>
+      <div class="actrow" id="depositRow">
+        <label for="amount" class="sr">Coins to drop</label>
+        <input id="amount" inputmode="decimal" placeholder="coins (1 drop/day)" autocomplete="off">
+        <button id="maxBtn" class="btn ghost" type="button">Max</button>
+        <button id="depositBtn" class="btn primary">Drop</button>
+      </div>
+      <div class="actrow">
+        <button id="withdrawBtn" class="btn">Take out 1</button>
+        <button id="closeBtn" class="btn danger">Close jar</button>
+      </div>
+    </div>
+    <div id="txStatus" role="status" aria-live="polite"></div>
+    <p class="dim small" id="walletNote">Every action is signed in your own Phantom wallet. This page never asks for a key or seed phrase. No app fees; the test network charges a tiny test-SOL network fee.</p>
+  </section>
+
+  <section class="panel" id="boardPanel" aria-labelledby="bh">
+    <h2 id="bh">Jar leaderboard · <span id="boardcoin">…</span></h2>
+    <div class="sorttabs" id="sorttabs">
+      <button class="sorttab active" data-sort="streak">Longest streak</button>
+      <button class="sorttab" data-sort="balance">Most in jar</button>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Wallet</th><th class="num">In jar</th><th class="num">Streak</th><th class="num">Best</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="5">Loading…</td></tr></tbody>
+    </table></div>
+    <p class="meta" id="meta"></p>
+  </section>
+
+  <section class="panel" aria-labelledby="rh">
+    <h2 id="rh">House rules</h2>
+    <ul class="rules">
+      <li>Opt in: you open <b>your own</b> jar.</li>
+      <li><b>1 drop a day</b>, up to <b id="ruleCap">10</b> coins in that drop. Resets 00:00 UTC.</li>
+      <li>Each jar holds at most <b id="ruleJarCap">100</b>. A drop that would go over is rejected in full.</li>
+      <li>Take out <b>1 coin</b>, once a day. Only you can take coins out.</li>
+      <li>No admin key, no app fees. Wallet addresses only, no sign-ups.</li>
+      <li>Streak = UTC days in a row with a drop.</li>
+    </ul>
+    <div class="tier-legend">
+      <b>Streak tiers</b> (current streak only, never coin balance)<br>
+      <span class="tier penny">Penny Pig 1–6</span> <span class="tier keeper">Coin Keeper 7–29</span> <span class="tier hog">Vault Hog 30–99</span> <span class="tier golden">Golden Snout 100+</span>
+      <div class="note">Tiers are for fun, badges only, no rewards.</div>
+    </div>
+  </section>
+
+  <section class="panel" id="peekPanel" aria-labelledby="ph">
+    <h2 id="ph">Peek at a jar</h2>
+    <div class="lookup"><label for="addr" class="sr">Wallet address</label><input id="addr" placeholder="wallet address (test network)" autocomplete="off"><button id="go" class="btn">Peek</button></div>
+    <div id="peekOut"></div>
+  </section>
+</main>
+<footer>
+  <p><b>Test network, no real coins.</b> <span class="cluster-name">TEST</span> prototype · unaudited · fan arcade for the X-Comix world.</p>
+  <p class="dim">Piggy-jar idea originally by Pete for UFD. Original Circuit 13 art. Phantom is a trademark of its owner; used only for the standard connect button.</p>
+  <p class="dim small">Pixel type: Press Start 2P and VT323 (SIL Open Font License), bundled locally.</p>
+</footer>
+</body>
+</html>
